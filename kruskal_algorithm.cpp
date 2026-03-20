@@ -60,12 +60,12 @@ bool cmp(const pair<int,pair<int,int>> &a, const pair<int,pair<int,int>> &b){
 }
 
 void solve(){
-    cin >> n >> m;
-    for(int i = 1;i <= m;++i){
-        int u, v, val;
-        cin >> u >> v >> val;
-        mat[u][v] = val;
-    }
+    cin >> n;
+    // for(int i = 1;i <= m;++i){
+    //     int u, v, val;
+    //     cin >> u >> v >> val;
+    //     mat[u][v] = val;
+    // }
     for(int i = 1;i <= n;++i){
         for(int j = 1;j <= n;++j){
             cin >> mat[i][j];
@@ -79,8 +79,8 @@ void solve(){
 }
 
 int main(){
-    freopen("CK.INP", "r", stdin);
-    freopen("CK.OUT", "w", stdout);
+    //freopen("CK.INP", "r", stdin);
+    //freopen("CK.OUT", "w", stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     //int tc;cin >> tc;while(tc--){solve();}

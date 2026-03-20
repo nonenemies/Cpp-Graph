@@ -109,8 +109,8 @@ void solve(){
 }
 
 int main(){
-    freopen("TK.INP", "r", stdin);
-    freopen("TK.OUT", "w", stdout);
+    //freopen("TK.INP", "r", stdin);
+    //freopen("TK.OUT", "w", stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     //int tc;cin >> tc;while(tc--){solve();}

@@ -69,8 +69,8 @@ void solve(){
 }
 
 int main(){
-    freopen("CK.INP", "r", stdin);
-    freopen("CK.OUT", "w", stdout);
+    //freopen("CK.INP", "r", stdin);
+    //freopen("CK.OUT", "w", stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     solve();
