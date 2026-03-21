@@ -24,7 +24,7 @@ void deg(){
     for(int i = 1;i <= n;++i){
         int cnt = 0;
         for(int j = 1;j <= n;++j){
-            if(mat[i][j] == 1){
+            if(mat[i][j]!=0 && mat[i][j]!=10000){
                 cnt++;
             }
         }
@@ -32,33 +32,49 @@ void deg(){
     }
 }
 
-void edges(){
-    vector<pair<int,int>> ans;
+void directed_deg(){
+    vector<int> in(maxv, 0);
+    vector<int> out(maxv, 0);
     for(int i = 1;i <= n;++i){
         for(int j = 1;j <= n;++j){
-            if(mat[i][j]==1){
+            if(mat[i][j]!=0 && mat[i][j]!=10000){
+                in[j]++;
+                out[i]++;
+            }
+        }
+    }
+    for(int i = 1;i <= n;++i){
+        cout << in[i] << " " << out[i] << endl;
+    }
+}
+
+void edges(){
+    vector<pair<pair<int,int>, int>> ans;
+    for(int i = 1;i <= n;++i){
+        for(int j = 1;j <= n;++j){
+            if(mat[i][j]!=0 && mat[i][j] != 10000){
                 mat[j][i] = 0;
-                ans.pb({i,j});
+                ans.pb({{i,j},mat[i][j]});
             }
         }
     }
     cout << n << " " << ans.size() << endl;
 
-    // for(int j = 0;j < ans.size();++j){
-    //     cout << ans[j].first << " " << ans[j].second << endl;        
-    // }
+    for(int j = 0;j < ans.size();++j){
+        cout << ans[j].first.first << " " << ans[j].first.second << " " << ans[j].second << endl;        
+    }
 
     //incidence_matrix
-    for(int i = 1;i <= n;++i){
-        for(int j = 0;j < ans.size();++j){
-            if(i == ans[j].first || i == ans[j].second){
-                cout << 1 << " ";
-            }else{
-                cout << 0 << " ";
-            }
-        }
-        cout << endl;
-    }
+    // for(int i = 1;i <= n;++i){
+    //     for(int j = 0;j < ans.size();++j){
+    //         if(i == ans[j].first || i == ans[j].second){
+    //             cout << 1 << " ";
+    //         }else{
+    //             cout << 0 << " ";
+    //         }
+    //     }
+    //     cout << endl;
+    // }
 }
 
 void adj_list(){
@@ -89,12 +105,28 @@ void matrix(){
     }
 }
 
+void input_with_matrix(){
+    cin >> n;
+    for(int i = 1;i <= n;++i){
+        for(int j = 1;j <= n;++j){
+            cin >> mat[i][j];
+        }
+    }
+}
+
 void input_with_edges(){
     cin >> n >> m;
     for(int i = 1;i <= m;++i){
-        int u, v;
-        cin >> u >> v;
-        mat[u][v] = mat[v][u] = 1;
+        int u, v, val;
+        cin >> u >> v >> val;
+        mat[u][v] = val;
+    }
+    for(int i = 1;i <= n;++i){
+        for(int j = 1;j <= n;++j){
+            if(i!=j && mat[i][j] == 0){
+                mat[i][j] = 10000;
+            }
+        }
     }
 }
 
@@ -116,12 +148,12 @@ void solve(){
     int t;
     cin >> t;
     if(t==1){
-        input_with_adjlist();
-        deg();
+        input_with_edges();
+        directed_deg();
     }
     else{
-        input_with_adjlist();
-        edges();
+        input_with_edges();
+        matrix();
     } 
 }
 
