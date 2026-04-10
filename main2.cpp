@@ -6,60 +6,68 @@ using namespace std;
 #define maxn 505
 #define maxval 1e9
 
-int n, m;
-vector<vector<int>> a(maxn, vector<int>(maxn, 0));
-vector<vector<int>> visited(maxn, vector<int>(maxn, 0));
+int n;
+unordered_map<string, int> visited; 
+string source = "";
+string ending = "";
 
-int dx[] = {-1, 0, 1, -1, 1, -1, 0, 1};
-int dy[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+void bfs(string u){
+    queue<pair<int,string>> q;
+    q.push({0, u});
+    visited[u] = 1;
 
-void fill(int x, int y){
-    if(x < 1 || x > n || y < 1 || y > m){
-        return;
-    } 
-    if(visited[x][y]){
-        return;
-    } 
-    if(a[x][y] == 0){
-        return;
-    } 
+    while(!q.empty()){
+        int cur = q.front().first;
+        string s = q.front().second;
+        q.pop();
 
-    visited[x][y] = 1;
-    for(int i = 0; i < 8; i++){
-        fill(x + dx[i], y + dy[i]);
+        cout << cur << " " << s << endl;
+
+        if(s == ending){
+            cout << cur;
+            return;
+        }
+
+        string tmp;
+
+        tmp = s;
+        char a = s[1], b = s[2], c = s[4], d = s[5];
+        tmp[1] = c; tmp[2] = a; tmp[4] = d; tmp[5] = b;
+
+        if(!visited[tmp]){
+            visited[tmp] = 1;
+            q.push({cur + 1, tmp});
+        }
+
+        tmp = s;
+        a = s[0]; b = s[1]; c = s[3]; d = s[4];
+        tmp[0] = c; tmp[1] = a; tmp[3] = d; tmp[4] = b;
+
+        if(!visited[tmp]){
+            visited[tmp] = 1;
+            q.push({cur + 1, tmp});
+        }
     }
 }
 
 void solve(){
-    cin >> n >> m;
-
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= m; j++){
-            visited[i][j] = 0;
-        }
+    vector<int> start(7, 0);
+    vector<int> dest(7, 0);
+    for(int i = 1;i <= 6;++i){
+        cin >> start[i];
+        source += to_string(start[i]);
     }
-
-    for(int i = 1;i <= n;++i){
-        for(int j = 1;j <= m;++j){
-            cin >> a[i][j];
-        }
+    for(int i = 1;i <= 6;++i){
+        cin >> dest[i];
+        ending += to_string(dest[i]);
     }
-
-    int cnt = 0;
-    for(int i = 1;i <= n;++i){
-        for(int j = 1;j <= m;++j){
-            if(a[i][j] == 1 && !visited[i][j]){
-                ++cnt;
-                fill(i, j);
-            }
-        }
-    }
-    cout << cnt << endl;
+    bfs(source);
 }
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    int tc;cin >> tc;while(tc--){solve();}
+    //int tc;cin >> tc;while(tc--){solve();}
+    solve();
     return 0;
 }
