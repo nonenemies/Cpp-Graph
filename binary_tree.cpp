@@ -63,21 +63,21 @@ void preOrder(Node* T){
     }
 }
 
-void inOrder(Node* T){
-    if(T != NULL){ 
-        preOrder(T -> left);
-        cout << T->key << " ";
-        preorder(T -> right);
-    }
-}
+// void inOrder(Node* T){
+//     if(T != NULL){ 
+//         preOrder(T -> left);
+//         cout << T->key << " ";
+//         preorder(T -> right);
+//     }
+// }
 
-void postOrder(Node* T) {
-    if(T != NULL){ 
-        preOrder(T -> left);
-        preorder(T -> right);
-        cout << T->key << " ";
-    }
-}
+// void postOrder(Node* T) {
+//     if(T != NULL){ 
+//         preOrder(T -> left);
+//         preorder(T -> right);
+//         cout << T->key << " ";
+//     }
+// }
 
 // void bfs(int u){
 //     queue<int> q;
