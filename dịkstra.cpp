@@ -3,94 +3,71 @@ using namespace std;
 
 #define ll long long
 #define pb push_back
-#define maxn 105
-#define maxval 1e9
+#define maxn 1005
+#define maxval 1e15
 
-int n, start;
+int n, m, start;
 vector<int> adj[maxn];
-vector<vector<int>> a(maxn, vector<int>(maxn, 0));
+vector<vector<ll>> a(maxn, vector<ll>(maxn, 0));
 vector<int> visited(maxn, 0);
 vector<int> parent(maxn, 0);
-vector<int> opt(maxn, maxval);
+vector<ll> opt(maxn, maxval);
 
 void dijkstra(int start){
-    vector<int> ans;
-    ans.push_back(start);
-
     opt[start] = 0;
-    visited[start] = 1;
     parent[start] = start;
 
-    for(int i = 1;i <= n;++i){
-        if(i != start){
-            if(a[start][i] != maxval){
-                opt[i] = a[start][i];
-            }
-            parent[i] = start;
-        }
-    }
-
     while(true){
-        int check = 0;
-        for(int i = 1;i <= n;++i){
-            if(!visited[i]){
-                check = 1;
+        int min_pos = -1;
+        ll min_opt = maxval;
+
+        for(int i = 1; i <= n; ++i){
+            if(!visited[i] && opt[i] < min_opt){
+                min_opt = opt[i];
+                min_pos = i;
             }
-        }
-        
-        if(check == 0){
-            break;
         }
 
-        int min_pos = -1;
-        int min_opt = 2e9;
-        for(int i = 1;i <= n;++i){
-            if(!visited[i] && opt[i] < min_opt){
-                min_pos = i;
-                min_opt = opt[i];
-            }
-        }
+        if(min_pos == -1) break;
 
         visited[min_pos] = 1;
-
-        for(int i = 1;i <= n;++i){
-            if(!visited[i] && a[min_pos][i] != maxval && min_pos != i){
-                if(opt[i] > opt[min_pos] + a[min_pos][i]){
-                    opt[i] = opt[min_pos] + a[min_pos][i];
-                    parent[i] = min_pos;
-                }
+        for(int i = 1; i <= n; ++i){
+            if(a[min_pos][i] == maxval)
+                continue;
+            if(opt[i] > opt[min_pos] + a[min_pos][i]){
+                opt[i] = opt[min_pos] + a[min_pos][i];
+                parent[i] = min_pos;
             }
         }
     }
-
-    vector<int> tmp = parent;
-    for(int i = 1;i <= n;++i){
-        if(opt[i] == maxval){
-            cout << "K/c " << start << " -> " << i << " = " << "INF" << endl;
-            continue;
-        }
-        cout << "K/c " << start << " -> " << i << " = " << opt[i] << ";        ";
-        int cur = i;
-        while(cur != start){
-            cout << cur << " <- ";
-            cur = parent[cur];
-        }
-        if(i == start){
-            cout << start << " <- " << start << endl;
-        }else{
-            cout << start << endl;
-        }
+    for(int i = 1; i <= n; ++i){
+        cout << opt[i] << " ";
     }
+
+    cout << endl;
+}
+
+void reset(){
+    visited.assign(maxn, 0);
+    parent.assign(maxn, 0);
+    opt.assign(maxn, maxval);
 }
 
 void solve(){
-    cin >> n >> start;
+    reset();
+    cin >> n >> m >> start;
     for(int i = 1;i <= n;++i){
         for(int j = 1;j <= n;++j){
-            cin >> a[i][j];
-            if(a[i][j] == 0 && i != j){
-                a[i][j] = maxval;
-            }
+            a[i][j] = maxval;
+        }
+        a[i][i] = 0;
+    }
+    for(int i = 1;i <= m;++i){
+        int u, v, w;
+        cin >> u >> v >> w;
+        if(w < a[u][v]){
+            a[u][v] = w;
+            a[v][u] = w;
         }
     }
     dijkstra(start);
@@ -99,6 +76,6 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    solve();
+    int tc;cin >> tc;while(tc--){solve();}
     return 0;
 }
