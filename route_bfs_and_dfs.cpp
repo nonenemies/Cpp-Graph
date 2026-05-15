@@ -3,9 +3,9 @@
 using namespace std;
 
 #define pb push_back
-#define maxn 105
+#define maxn 1005
 
-int n, start, fin;
+int n, m, start, fin;
 int cnt = 0;
 int visited[maxn];
 int parent[maxn];
@@ -64,9 +64,13 @@ void bfs(int u){
 }
 
 void route(int u, int v){
-    dfs_route(u);
+    if(u == v){
+        cout << u;
+        return;
+    }
+    bfs(u);
     if(!visited[v]){
-        cout << 0;
+        cout << -1;
         return;
     }
     vector<int> ans;
@@ -90,22 +94,19 @@ void check(){
 }
 
 void solve(){
-    int cas;
-    cin >> cas;
-    cin >> n >> start >> fin;
+    memset(visited, 0, sizeof(visited));
+    memset(parent, 0, sizeof(parent));
+    cin >> n >> m >> start >> fin;
     for(int i = 1;i <= n;++i){
-        for(int j = 1;j <= n;++j){
-            cin >> a[i][j];
-            if(a[i][j] == 1){
-                adj[i].pb(j);
-            }
-        }
+        adj[i].clear();
     }
-    if(cas == 1){
-        check();
-    }else{
-        route(start, fin);
+    for(int i = 1;i <= m;++i){
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
     }
+    route(start, fin);
+    cout << endl;
 }
 
 int main(){
@@ -113,7 +114,7 @@ int main(){
     //freopen("TK.OUT", "w", stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    //int tc;cin >> tc;while(tc--){solve();}
-    solve();
+    int tc;cin >> tc;while(tc--){solve();}
+    //solve();
     return 0;
 }
